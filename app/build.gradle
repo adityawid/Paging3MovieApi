@@ -1,0 +1,125 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+apply from: '../shared_dependencies.gradle'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.adityawidayanto.paging3movieapi"
+        minSdkVersion 19
+        targetSdkVersion 30
+        versionCode rootProject.ext.configs.release["APP_VERSION_CODE"]
+        versionName rootProject.ext.configs.release["APP_VERSION_NAME"]
+        flavorDimensions "versionCode"
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        debug {
+//            storeFile file("appkeystore.jks")
+//            storePassword "aditya123456"
+//            keyAlias "aditya"
+//            keyPassword "aditya123456"
+        }
+        release {
+//            storeFile file("appkeystore.jks")
+//            storePassword "aditya123456"
+//            keyAlias "aditya"
+//            keyPassword "aditya123456"
+        }
+    }
+    productFlavors {
+        //PROD
+        prod {
+            manifestPlaceholders = rootProject.ext.configs.release
+            versionCode rootProject.ext.configs.release["APP_VERSION_CODE"]
+            versionName rootProject.ext.configs.release["APP_VERSION_NAME"]
+        }
+        staging{
+            manifestPlaceholders = rootProject.ext.configs.debug
+            versionCode rootProject.ext.configs.staging["APP_VERSION_CODE"]
+            versionName rootProject.ext.configs.staging["APP_VERSION_NAME"]
+        }
+        dev {
+            manifestPlaceholders = rootProject.ext.configs.debug
+            versionCode rootProject.ext.configs.debug["APP_VERSION_CODE"]
+            versionName rootProject.ext.configs.debug["APP_VERSION_NAME"]
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "BASE_URL", BASE_URL
+            buildConfigField "String", "API_KEY", API_KEY
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def formattedDate = new Date().format('yyyyMMdd')
+                    def formattedTime = new Date().format('HHmmss')
+                    outputFileName = "App_V${variant.versionName}_${variant.name}_${formattedDate}_${formattedTime}.apk"
+                }
+            }
+        }
+
+        release {
+            minifyEnabled true
+            buildConfigField "String", "BASE_URL", BASE_URL
+            buildConfigField "String", "API_KEY", API_KEY
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def formattedDate = new Date().format('yyyyMMdd')
+                    def formattedTime = new Date().format('HHmmss')
+                    outputFileName = "App_V${variant.versionName}_${variant.name}_${formattedDate}_${formattedTime}.apk"
+                }
+            }
+            signingConfig signingConfigs.release
+            debuggable false
+            shrinkResources true
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding = true
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude("META-INF/*.kotlin_module")
+    }
+
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
+}

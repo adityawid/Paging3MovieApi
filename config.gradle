@@ -1,0 +1,17 @@
+rootProject.ext.configs = [
+        debug  : [
+                APP_NAME            : "Paging 3 Movie Api",
+                APP_VERSION_CODE    : 1,
+                APP_VERSION_NAME    : "1.0.0"
+        ],
+        staging: [
+                APP_NAME            : "Paging 3 Movie Api",
+                APP_VERSION_CODE    : 1,
+                APP_VERSION_NAME    : "1.0.0"
+        ],
+        release: [
+                APP_NAME            : "Paging 3 Movie Api",
+                APP_VERSION_CODE    : 1,
+                APP_VERSION_NAME    : "1.0.0"
+        ]
+]
