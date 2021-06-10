@@ -93,7 +93,7 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        dataBinding = true
+        dataBinding = true  // gunakan data binding
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'

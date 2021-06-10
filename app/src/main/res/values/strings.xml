@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Paging 3 Movie Api</string>
+    <string name="poster">poster</string>
 </resources>
